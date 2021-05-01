@@ -1,3 +1,4 @@
+#!/bin/bash
 ln -sf /usr/share/zoneinfo/Austrlia/Sydney /etc/localtime
 hwclock --systohc
 sed -i '177s/.//' /etc/locale.gen
@@ -13,7 +14,10 @@ echo root:password | chpasswd
 # You can add xorg to the installation packages, I usually add it at the DE or WM install script
 # You can remove the tlp package if you are installing on a desktop or vm
 
-pacman -S --noconfirm grub efibootmgr networkmanager network-manager-applet dialog wpa_supplicant mtools dosfstools reflector base-devel linux-headers avahi xdg-user-dirs xdg-utils gvfs gvfs-smb nfs-utils inetutils dnsutils bluez bluez-utils cups hplip alsa-utils pulseaudio bash-completion openssh rsync reflector acpi acpi_call virt-manager qemu qemu-arch-extra edk2-ovmf bridge-utils dnsmasq vde2 openbsd-netcat ebtables-nft iptables ipset firewalld flatpak sof-firmware nss-mdns acpid os-prober ntfs-3g terminus-font
+pacman -S --noconfirm grub efibootmgr networkmanager network-manager-applet dialog wpa_supplicant openssh rsync reflector bridge-utils dnsmasq vde2 openbsd-netcat ebtables-nft iptables ipset firewalld
+pacman -S --noconfirm base-devel linux-headers
+pacman -S --noconfirm avahi xdg-user-dirs xdg-utils gvfs gvfs-smb nfs-utils inetutils dnsutils bluez bluez-utils cups hplip alsa-utils pulseaudio
+pacman -S --noconfirm bash-completion  acpi acpi_call virt-manager qemu qemu-arch-extra edk2-ovmf flatpak sof-firmware nss-mdns acpid os-prober ntfs-3g terminus-font
 
 # pacman -S --noconfirm xf86-video-amdgpu
 pacman -S --noconfirm nvidia nvidia-utils nvidia-settings
