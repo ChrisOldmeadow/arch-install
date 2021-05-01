@@ -1,65 +1,3 @@
-#+TITLE: Basic Arch install script
-#+PROPERTY: header-args :tangle arch_install.sh
-
-* Introduction
-
-+ view the attached storage devices with lsblk
-+ Set keyboard layout
-+ verify boot mode (ls /sys/firmware/efi/efivars  # if this is empty then boot using BIOS)
-+ connect to the internet (ip link)
-+ Refresh the servers with pacman -Syy
-+ update the system clock timedatectl set-ntp true
-** + Partition the hard drives
-I have the following setup:
-- 2xNVME drives (/root and /home)
-- 1 spinning disk (/data)
-I will use the UEFI paritions
-I will use fdisk to create 3 partitons on the /root disk
-  1) /mnt/boot /dev/efi_system_partition (260MB)
-  2) [SWAP] /dev/swap_partition (2GB)
-  3) /mnt /dev/root_partition (root - remainder of device) - Im going to have home on a separate disk
-
-    gdisk /dev/sda
-    - first create a 300MB efi partition
-    o
-    n
-    +300M
-    ef00
-
-    - next create a 2GB swap partition
-      n
-      +2GB
-      8200
-    - the last partition just accept all the defaults
-
-      - write the changes to the disk 'w' and confirm
-
-
-
-+ format and mount
-  + mks.fat -F32 /dev/sda1 (EFI partition needs to be FAT32)
-  + mkswap /dev/sda2
-  + mkfs.btrfs /dev/sda3
-
-  + mount /dev/root_partition /mnt
-  + mkdir /mnt/boot
-  + mount /dev/efi_system_partition /mnt/boot
-  + mount home (todo)
-  + swapon /dev/swap_partition 
-
-+ installation of base packages into /mnt  pacstrap /mnt base base-dev linux linux-firmware dhcpcd wpa_supplicant vim git dialog man-db man-pages texinfo intel-ucode btrfs-progs
-
-
-+ Generate the FSTAB file with genfstab -U /mnt >> /mnt/etc/fstab
-+ Chroot in with arch-chroot /mnt
-+ Download the git repository with git clone https://github.com/ChrisOldmeadow/arch_install
-
-+ cd arch_install
-+ chmod +x arch_install.sh
-+ ./arch_install.sh
-
-
-#+begin_src sh
 ln -sf /usr/share/zoneinfo/Austrlia/Sydney /etc/localtime
 hwclock --systohc
 sed -i '177s/.//' /etc/locale.gen
@@ -102,4 +40,3 @@ usermod -aG libvirt chris
 echo "chris ALL=(ALL) ALL" >> /etc/sudoers.d/chris
 
 printf "\e[1;32mDone! Type exit, umount -a and reboot.\e[0m"
-#+end_src
