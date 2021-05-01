@@ -14,7 +14,7 @@
 I have the following setup:
 - 2xNVME drives (/root and /home)
 - 1 spinning disk (/data)
-I will use the UEFI paritions
+I will use the UEFI partitions
 I will use fdisk to create 3 partitons on the /root disk
   1) /mnt/boot /dev/efi_system_partition (260MB)
   2) [SWAP] /dev/swap_partition (2GB)
@@ -39,7 +39,7 @@ I will use fdisk to create 3 partitons on the /root disk
 
 ** format and mount
 
-  + mks.fat -F32 /dev/sda1 (EFI partition needs to be FAT32)
+  + mkfs.fat -F32 /dev/sda1 (EFI partition needs to be FAT32)
   + mkswap /dev/sda2
   + mkfs.btrfs /dev/sda3
 
@@ -51,7 +51,7 @@ I will use fdisk to create 3 partitons on the /root disk
 
 ** installation of base packages into /mnt
 
-+ pacstrap /mnt base base-dev linux linux-firmware dhcpcd wpa_supplicant vim git dialog man-db man-pages texinfo intel-ucode btrfs-progs
++ pacstrap /mnt base base-devel linux linux-firmware dhcpcd wpa_supplicant vim git dialog man-db man-pages texinfo intel-ucode btrfs-progs
 
 
 + Generate the FSTAB file with genfstab -U /mnt >> /mnt/etc/fstab
