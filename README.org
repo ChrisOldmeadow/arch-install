@@ -78,8 +78,6 @@ echo "::1       localhost" >> /etc/hosts
 echo "127.0.1.1 arch.localdomain arch" >> /etc/hosts
 echo root:password | chpasswd
 
-# You can add xorg to the installation packages, I usually add it at the DE or WM install script
-# You can remove the tlp package if you are installing on a desktop or vm
 
 pacman -S --noconfirm grub efibootmgr networkmanager network-manager-applet dialog wpa_supplicant openssh rsync reflector bridge-utils dnsmasq vde2 openbsd-netcat ebtables-nft iptables ipset firewalld
 pacman -S --noconfirm base-devel linux-headers
