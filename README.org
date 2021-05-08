@@ -39,15 +39,32 @@ I will use fdisk to create 3 partitons on the /root disk
 
 ** format and mount
 
-  + mkfs.fat -F32 /dev/sda1 (EFI partition needs to be FAT32)
+  + mkfs.vfat /dev/sda1 (EFI partition needs to be FAT32)
   + mkswap /dev/sda2
   + mkfs.btrfs /dev/sda3
-
   + mount /dev/root_partition /mnt
-  + mkdir /mnt/boot
-  + mount /dev/efi_system_partition /mnt/boot
-  + mount home (todo)
-  + swapon /dev/swap_partition 
+  + cd /mnt
+  + btrfs subvolume create @
+
+  ** Can also have a btrfs for a separate home disk
+
+  + mkfs.bgtrf /dev/nvme1n1
+  + cd ..
+  + umount /mnt
+  + mount /dev/home_partition /mnt
+  + cd /mnt
+  + btrfs subvolume create @home
+  + btrfs subvolume create @var
+  + cd ..
+  + umount /mnt
+  + mount -o noatime,compress=ztd,space_cache=v1,subvol=@ /dev/root_parition /mnt
+  + mkdir {boot,home,var}
+  + mount -o noatime,compress=ztd,space_cache=v1,subvol=@home /dev/home_parition /mnt/home
+  + mount -o noatime,compress=ztd,space_cache=v1,subvol=@home /dev/home_parition /mnt/var /mnt/var
+  + mount /dev/dev/efi_boot_parition /mnt/boot
+
+  ** a Swap partition
+  + swapon /dev/swap_partition
 
 ** installation of base packages into /mnt
 
